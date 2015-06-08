@@ -44,6 +44,14 @@ public class PacketERR extends PacketTFTP {
         return getOpCode(packet)==5;
     }
     
+    
+    //retourne l'errorCode d'un paquet type erreur en byte
+    //
+    public static int getErrCode(byte[] paquet){
+        int err = paquet[3];
+        return err;
+    }
+    
     public String createErrMsg(){
         String msg = new String();
         switch (errCode){

@@ -5,6 +5,7 @@
  */
 package Packets;
 
+import static Packets.PacketERR.getErrCode;
 import static Packets.PacketTFTP.getOpCode;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -22,6 +23,11 @@ public class STF_TFTP {
      */
     public static void main(String[] args) {
         
+        PacketERR p = new PacketERR(3);
+        System.out.println(p.datagram.length);
+        int i = getOpCode(p.datagram);
+        System.out.println(i);
+        System.out.println(getErrCode(p.datagram));
     }
     
 }
