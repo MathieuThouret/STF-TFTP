@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package stf_tftp;
+package Packets;
 
 import com.sun.security.ntlm.Client;
 import java.io.*;
@@ -18,10 +18,10 @@ public class PacketERR extends PacketTFTP {
     protected int errCode;
     protected String errMsg;
     
-    public PacketERR (int errCode, String errMsg) {
+    public PacketERR (int errCode) {
         super (5);
         this.errCode=errCode;
-        this.errMsg = errMsg;
+        this.errMsg = createErrMsg();
     }
     
     public int getErrCode() {
@@ -39,6 +39,29 @@ public class PacketERR extends PacketTFTP {
     public void setErrMsg(String ErrMsg) {
         this.errMsg = ErrMsg;
     }
+    
+    public String createErrMsg(){
+        String msg = new String();
+        switch (errCode){
+            case 1: msg = "File not Found.";
+                break;
+            case 2:  msg = "Access violation.";
+                break;
+            case 3: msg = "Disk full or allocation exceeded.";
+                break;
+            case 4: msg = "Illegal TFTP operation.";
+                break;
+            case 5: msg = "Unknown transfer ID.";
+                break;
+            case 6: msg = "File already exists.";
+                break;
+            case 7: msg = "No such user.";
+                break;
+            default: msg = "Unknown error.";
+                break;               
+        }
+        return msg;
+    }
 
     @Override
     public void makePackByte() {
@@ -50,7 +73,7 @@ public class PacketERR extends PacketTFTP {
             outputStream.write(intToBytes(0));
             packByte = outputStream.toByteArray();
         } catch (IOException ex) {
-            Logger.getLogger(PacketERR.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erreur dans la création du paquet erreur : " + ex);
         }
     
     }
