@@ -31,8 +31,8 @@ public class PacketWRQ extends PacketTFTP{
     @Override
     public void makePackByte() {
         try {
-            byte[] fileByte = file.getBytes("ascii");
-            byte[] modeByte = mode.getBytes("ascii");
+            byte[] fileByte = file.getBytes("netascii");
+            byte[] modeByte = mode.getBytes("netascii");
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             outputStream.write(fileByte);
             outputStream.write((byte)0);
