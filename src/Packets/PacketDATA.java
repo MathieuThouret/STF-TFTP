@@ -39,6 +39,10 @@ public class PacketDATA extends PacketTFTP {
     public void setData(byte[] data) {
         this.data = data;
     }
+    
+    public static boolean estDATA(byte[] packet){
+        return getOpCode(packet)==3;
+    }
 
     @Override
     public void makePackByte() {

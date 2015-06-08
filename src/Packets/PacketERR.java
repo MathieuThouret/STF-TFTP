@@ -39,6 +39,10 @@ public class PacketERR extends PacketTFTP {
         this.errMsg = ErrMsg;
     }
     
+    public static boolean estERR(byte[] packet){
+        return getOpCode(packet)==5;
+    }
+    
     public String createErrMsg(){
         String msg = new String();
         switch (errCode){

@@ -21,6 +21,10 @@ public class PacketACK extends PacketTFTP {
         createDatagram();
     }
     
+    public static boolean estACK(byte[] packet){
+        return getOpCode(packet)==4;
+    }
+    
     @Override
     public void makePackByte() {
         packByte = intToBytes(this.bloc);

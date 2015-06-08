@@ -23,6 +23,10 @@ public class PacketRRQ extends PacketTFTP{
         createDatagram();
     }
     
+    public static boolean estRRQ(byte[] packet){
+        return getOpCode(packet)==1;
+    }
+    
     @Override
     public void makePackByte() {
         try {

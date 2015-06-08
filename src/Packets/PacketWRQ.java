@@ -24,6 +24,10 @@ public class PacketWRQ extends PacketTFTP{
         createDatagram();
     }
     
+    public static boolean estWRQ(byte[] packet){
+        return getOpCode(packet)==2;
+    }
+    
     @Override
     public void makePackByte() {
         try {

@@ -68,7 +68,7 @@ public abstract class PacketTFTP {
     //cette fonction retourne l'opcode d'un datagram d
     //le premier byte etant 0, on recupère le deuxième 
     //et on enlève la valeur de 0 en ascii.
-    public int getOpCode(byte[] d){
+    public static int getOpCode(byte[] d){
         int oc = d[1]-48;
         return oc;
     }
