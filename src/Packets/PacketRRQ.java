@@ -5,9 +5,7 @@
  */
 package Packets;
 
-import com.sun.security.ntlm.Client;
 import java.io.*;
-import java.util.logging.*;
 
 /**
  *
