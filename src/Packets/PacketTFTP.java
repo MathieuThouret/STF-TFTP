@@ -59,17 +59,17 @@ public abstract class PacketTFTP {
     }
     
     //Fonction qui permet le passage d'un int en byte
-    public byte[] intToBytes(final int i) {
-        ByteBuffer bb = ByteBuffer.allocate(2);
-        bb.putInt(i);
-        return bb.array();
+     public static byte[] intToBytes(int i) {
+        ByteBuffer data = ByteBuffer.allocate(2);
+        data.putShort((short)i);
+        return data.array();
     }
     
     //cette fonction retourne l'opcode d'un datagram d
     //le premier byte etant 0, on recupère le deuxième 
-    //et on enlève la valeur de 0 en ascii.
     public static int getOpCode(byte[] d){
-        int oc = d[1]-48;
+        int oc =0;
+        oc = d[1];
         return oc;
     }
     

@@ -21,6 +21,7 @@ public class PacketERR extends PacketTFTP {
         super (5);
         this.errCode=errCode;
         this.errMsg = createErrMsg();
+        createDatagram();
     }
     
     public int getErrCode() {
