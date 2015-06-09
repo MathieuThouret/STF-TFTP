@@ -10,6 +10,11 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import Packets.*;
 
+/**
+ *
+ * @author Thibaud
+ */
+
 public abstract class TransfertPaquet {
 
     InetAddress IP;
@@ -21,7 +26,7 @@ public abstract class TransfertPaquet {
             socket = new DatagramSocket();
             socket.setSoTimeout(5000);
         } catch (SocketException ex) {
-            System.err.println("Impossible de créer le socket");
+            System.out.println("Impossible de créer le socket");
         }
     }
 
@@ -32,7 +37,7 @@ public abstract class TransfertPaquet {
         try {
             this.socket.send(dp);
         } catch (IOException ex) {
-            throw new Exception("Echec de l'envoi");
+            System.out.println("Echec de l'envoi");
         }
     }
 
@@ -42,7 +47,7 @@ public abstract class TransfertPaquet {
         try {
             socket.receive(dp);
         } catch (IOException ex) {
-            throw new Exception("Aucun packet reçu");
+            System.out.println("Aucun packet reçu");
         }
         if (dp.getPort() != port) {
             port = dp.getPort();
