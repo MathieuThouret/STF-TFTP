@@ -42,8 +42,6 @@ public class Envoi extends TransfertPaquet {
             }
 
             try {
-
-                System.out.println("aa");
                 paquetRecu = receivePacket();
                 if (!PacketACK.estACK(paquetRecu)) {
                     if (!PacketERR.estERR(paquetRecu)) {

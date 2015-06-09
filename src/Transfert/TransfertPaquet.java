@@ -26,11 +26,9 @@ public abstract class TransfertPaquet {
     }
 
     public void sendPacket(PacketTFTP packet) throws Exception {
-        byte[] data = packet.getDatagram();
+        byte[] buffer = packet.getDatagram();
 
-        DatagramPacket dp = new DatagramPacket(data, data.length, IP, port);
-           String str = new String(data, "UTF-8");
-           System.out.println(str);
+        DatagramPacket dp = new DatagramPacket(buffer, buffer.length, IP, port);
         try {
             this.socket.send(dp);
         } catch (IOException ex) {
@@ -40,16 +38,16 @@ public abstract class TransfertPaquet {
 
     public byte[] receivePacket() throws Exception {
         byte[] buffer = new byte[1024];
-        DatagramPacket dtg = new DatagramPacket(buffer, buffer.length);
+        DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
         try {
-            socket.receive(dtg);
+            socket.receive(dp);
         } catch (IOException ex) {
             throw new Exception("Aucun packet reçu");
         }
-        if (dtg.getPort() != port) {
-            port = dtg.getPort();
+        if (dp.getPort() != port) {
+            port = dp.getPort();
         }
-        return dtg.getData();
+        return dp.getData();
     }
 
 
