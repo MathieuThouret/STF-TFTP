@@ -29,6 +29,8 @@ public abstract class TransfertPaquet {
         byte[] data = packet.getDatagram();
 
         DatagramPacket dp = new DatagramPacket(data, data.length, IP, port);
+           String str = new String(data, "UTF-8");
+           System.out.println(str);
         try {
             this.socket.send(dp);
         } catch (IOException ex) {

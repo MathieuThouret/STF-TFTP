@@ -43,13 +43,12 @@ public class Envoi extends TransfertPaquet {
 
             try {
 
+                System.out.println("aa");
                 paquetRecu = receivePacket();
                 if (!PacketACK.estACK(paquetRecu)) {
-                    if(!PacketERR.estERR(paquetRecu)) {
+                    if (!PacketERR.estERR(paquetRecu)) {
                         System.out.println("Packet non valide");
-                    }
-                    else
-                    {
+                    } else {
                         PacketERR paquetErreur = new PacketERR(PacketERR.getErrCode(paquetRecu));
                         System.out.println(paquetErreur.getErrMsg());
                     }
@@ -58,7 +57,7 @@ public class Envoi extends TransfertPaquet {
                 if (i >= 5) {
                     System.out.println("Echec de l'envoi");
                 }
-                
+
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
@@ -111,13 +110,13 @@ public class Envoi extends TransfertPaquet {
             sendAndAck(packet, 0);
         } catch (Exception ex) {
             System.out.println("Permission d'écriture refusée");
-            return 10;
+            return 2;
         }
         try {
             sendData(nomFichier);
         } catch (Exception ex) {
             System.out.println("Echec lors de l'envoi du fichier");
-            return 10;
+            return 3;
         }
         System.out.println("Envoi effectué avec succès");
         return 0;
@@ -126,46 +125,16 @@ public class Envoi extends TransfertPaquet {
     public static void main(String args[]) {
         Envoi envoi = new Envoi();
 
-        String fichierSelectionner = new String("C:\\Users\\Thibaud\\Desktop\\daftpunk.png");
+        String fichierSelectionner = new String("C:\\Users\\Thibaud\\Desktop\\aa\\daftpunk.png");
         String Adresse = new String("127.0.0.1");
 
-        if (fichierSelectionner.equals("")) {
-            System.out.println("Aucun fichier sélectionné");
+        File f = new File(fichierSelectionner);
+        int a;
+        if (f.exists()) {
+            a = envoi.sendFile(fichierSelectionner, Adresse);
         } else {
-            File f = new File(fichierSelectionner);
-            int a;
-            if (f.exists()) {
-                a = envoi.sendFile(fichierSelectionner, Adresse);
-                switch (a) {
-                    case 0:
-                        System.out.println("Envoi effectué");
-                        break;
-                    case 1:
-                        System.out.println("Adresse IP incorrecte");
-                        break;
-                    case 2:
-                        System.out.println("Problème lors de l'ouverture du fichier");
-                        break;
-                    case 3:
-                        System.out.println("Pas de réponse du serveur");
-                        break;
-                    case 4:
-                        System.out.println("Echec de l'envoi du paquet");
-                        break;
-                    case 5:
-                        System.out.println("Problème seveur");
-                        break;
-                    case 6:
-                        System.out.println("Paquet invalide");
-                        break;
-                    default:
-                        System.out.println("Erreur");
-                        break;
-                }
-            } else {
-                System.out.println("Fichier absent");
+            System.out.println("Fichier absent");
 
-            }
         }
     }
 }
