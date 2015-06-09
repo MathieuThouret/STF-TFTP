@@ -124,13 +124,18 @@ public class Envoi extends TransfertPaquet {
     public static void main(String args[]) {
         Envoi envoi = new Envoi();
 
-        String fichierSelectionner = new String("C:\\Users\\Thibaud\\Desktop\\aa\\daftpunk.png");
-        String Adresse = new String("127.0.0.1");
+        String fichierSelectionner = new String("./texte/motsdelongueur6bis.txt");
+        String adresse = null;
+        try {
+            adresse = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+
+        }
 
         File f = new File(fichierSelectionner);
         int a;
         if (f.exists()) {
-            a = envoi.sendFile(fichierSelectionner, Adresse);
+            a = envoi.sendFile(fichierSelectionner, adresse);
         } else {
             System.out.println("Fichier absent");
 
