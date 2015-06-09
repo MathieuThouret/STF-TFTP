@@ -37,7 +37,7 @@ public abstract class TransfertPaquet {
         try {
             this.socket.send(dp);
         } catch (IOException ex) {
-            System.out.println("Echec de l'envoi");
+             throw new Exception("Echec de l'envoi");
         }
     }
 
@@ -47,7 +47,7 @@ public abstract class TransfertPaquet {
         try {
             socket.receive(dp);
         } catch (IOException ex) {
-            System.out.println("Aucun packet reçu");
+             throw new Exception("Aucun packet reçu");
         }
         if (dp.getPort() != port) {
             port = dp.getPort();

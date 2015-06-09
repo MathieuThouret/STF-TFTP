@@ -52,7 +52,6 @@ public class Envoi extends TransfertPaquet {
                         System.out.println(paquetErreur.getErrMsg());
                     }
                 }
-
                 if (i >= 5) {
                     System.out.println("Echec de l'envoi");
                 }
@@ -124,8 +123,8 @@ public class Envoi extends TransfertPaquet {
     public static void main(String args[]) {
         Envoi envoi = new Envoi();
 
-        String fichierSelectionner = new String("./texte/motsdelongueur6bis.txt");
-        String adresse = null;
+        String fichierSelectionner = new String("./src/Fichiers/daftpunk.png");
+        String adresse = "127.0.0.1";
         try {
             adresse = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
