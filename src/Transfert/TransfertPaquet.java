@@ -68,6 +68,40 @@ public abstract class TransfertPaquet {
             System.err.println("Impossible d'envoyer le paquet après " + nb_tentative + " tentatives...");
         }
     }
+    
+    
+    public void sendAndDATA(PacketTFTP packet) throws Exception {
+        byte[] paquetRecu;
+        int i;
+        for (i = 0; i < nb_tentative; i++) {
+            try {
+                sendPacket(packet);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+            try {
+                paquetRecu = receivePacket();
+                if (!PacketDATA.estDATA(paquetRecu)) {
+                    if (!PacketERR.estERR(paquetRecu)) {
+                        System.out.println(PacketTFTP.getOpCode(paquetRecu));
+                        System.out.println("Packet non valide");
+                    } else {
+                        PacketERR paquetErreur = new PacketERR(PacketERR.getErrCode(paquetRecu));
+                        System.out.println(paquetErreur.getErrMsg());
+                    }
+                } else {
+                    break;
+
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        if (i >= nb_tentative) {
+            System.err.println("Impossible d'envoyer le paquet après " + nb_tentative + " tentatives...");
+        }
+    }
+    
 
     public void sendPacket(PacketTFTP packet) throws Exception {
         byte[] buffer = packet.getDatagram();

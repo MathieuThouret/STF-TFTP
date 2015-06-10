@@ -120,7 +120,7 @@ public class Reception extends TransfertPaquet {
 
         try {
             PacketRRQ packet = new PacketRRQ(nomFichier, "netascii");
-            sendAndAck(packet);
+            sendAndDATA(packet);
 
         } catch (Exception er) {
             System.out.println("Demande RRQ refus�e : " + er.getMessage());
@@ -144,6 +144,7 @@ public class Reception extends TransfertPaquet {
         String fichierSelectionner = new String("url.png");
 
         String adresse = "127.0.0.1";
+        System.out.println(dossier);
 
         // On essaye de r�cuperer l'addresse IP locale
         try {
