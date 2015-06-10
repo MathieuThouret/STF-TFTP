@@ -17,6 +17,11 @@ public class PacketDATA extends PacketTFTP {
     private int bloc;
     private byte[] data;
 
+
+    public PacketDATA() {
+        super(3);
+        this.data = new byte[512];
+    }
     public PacketDATA(int bloc, byte[] data) {//crée un paquet DATA
         super(3);
         this.bloc = bloc;
