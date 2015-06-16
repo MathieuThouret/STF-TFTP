@@ -39,7 +39,7 @@ public class Reception extends TransfertPaquet {
         try {
             socket.receive(dtg);
         } catch (IOException ex) {
-            throw new Exception("Aucun Packet re�u");
+            throw new Exception("Aucun Packet reçu");
         }
         if (dtg.getPort() != port) {
             port = dtg.getPort();
@@ -51,7 +51,7 @@ public class Reception extends TransfertPaquet {
         byte[] paquetrecu;
         try {
             paquetrecu = receiveDataPacket();
-            if (!PacketACK.estACK(paquetrecu)) {
+            if (!packet.getDatagramPacket(paquetrecu)) {
                 if (!PacketERR.estERR(paquetrecu)) {
                     System.err.println("Packet non valide");
                 } else {
@@ -73,7 +73,7 @@ public class Reception extends TransfertPaquet {
             try {
                 f.write(data.getData());
             } catch (IOException ex) {
-                System.err.println("Impossible d'�crire dans le fichier : " + fileName);
+                System.err.println("Impossible d'écrire dans le fichier : " + fileName);
                 throw ex;
             }
             do {
@@ -85,11 +85,11 @@ public class Reception extends TransfertPaquet {
                         f.write(data.getData());
                         break;
                     } catch (IOException ex) {
-                        System.err.println("Impossible d'�crire dans le fichier : " + fileName);
+                        System.err.println("Impossible d'écrire dans le fichier : " + fileName);
                         throw ex;
                     } catch (Exception er) {
                         if (i >= nb_tentative) {
-                            System.err.println("Aucune r�ponse du serveur : Time Out");
+                            System.err.println("Aucune réponse du serveur : Time Out");
                             throw er;
                         } else {
                             sendPacket(new PacketERR(data.getBloc() + 1));
@@ -120,40 +120,39 @@ public class Reception extends TransfertPaquet {
 
         try {
             PacketRRQ packet = new PacketRRQ(nomFichier, "netascii");
-            sendAndDATA(packet);
-
+            sendPacket(packet);
+            receiveDataPacket(data);
         } catch (Exception er) {
-            System.out.println("Demande RRQ refus�e : " + er.getMessage());
+            System.out.println("Demande RRQ refusée : " + er.getMessage());
             return 2;
         }
 
         try {
             receiveData(data);
         } catch (Exception ex) {
-            System.out.println("La reception a �chou� : " + ex.getMessage());
+            System.out.println("La reception a échoué : " + ex.getMessage());
             return -1;
         }
-        System.out.println("La reception a r�ussi");
+        System.out.println("La reception a réussi");
         return 0;
     }
 
     public static void main(String args[]) {
         String username = System.getProperty("user.name");
-        String dossier = "C:\\Users\\" + username + "\\Desktop";
+        String dossier = "C:\\Users\\" + username + "\\Desktop\\Reception";
 
         String fichierSelectionner = new String("url.png");
 
         String adresse = "127.0.0.1";
-        System.out.println(dossier);
 
-        // On essaye de r�cuperer l'addresse IP locale
+        // On essaye de récuperer l'addresse IP locale
         try {
             adresse = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {}
 
         File f = new File(fichierSelectionner);
         int codeRetour;
-        Reception reception = new Reception(dossier + "\\");
+        Reception reception = new Reception(dossier + "//");
         codeRetour = reception.receiveFile(fichierSelectionner, adresse);
     }
 }

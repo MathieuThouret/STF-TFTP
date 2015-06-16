@@ -64,7 +64,7 @@ public class Envoi extends TransfertPaquet {
             IP = InetAddress.getByName(adresse);
         } catch (UnknownHostException ex) {
             System.out.println("Adresse Ip incorrecte");
-            return 1;
+            return -1;
         }
         File f = new File(nomFichier);
         try {
@@ -72,13 +72,13 @@ public class Envoi extends TransfertPaquet {
             sendAndAck(packet);
         } catch (Exception ex) {
             System.out.println("Permission d'écriture refusée");
-            return 2;
+            return -2;
         }
         try {
             sendData(nomFichier);
         } catch (Exception ex) {
             System.out.println("Echec lors de l'envoi du fichier");
-            return 3;
+            return 1;
         }
         System.out.println("Envoi effectué avec succès");
         return 0;
@@ -98,9 +98,10 @@ public class Envoi extends TransfertPaquet {
         }
 
         File f = new File(fichierSelectionner);
-        int a;
+        int crem;
         if (f.exists()) {
-            a = envoi.sendFile(fichierSelectionner, adresse);
+            crem = envoi.sendFile(fichierSelectionner, adresse);
+            System.out.println(crem);
         } else {
             System.out.println("Fichier absent");
         }

@@ -62,4 +62,17 @@ public class PacketDATA extends PacketTFTP {
             System.out.println("Impossible de créer le packet DATA : "+ ex);
         }
     }
+
+    public boolean getDatagramPacket(byte[] _data) {
+        if (this.estDATA(_data)) {
+            datagram = _data;
+            opcode = 3;
+            bloc=byteToInt(_data);
+            data = new byte[datagram.length - 4];
+            System.arraycopy(datagram, 4, data, 0, datagram.length - 4);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

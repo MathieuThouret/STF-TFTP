@@ -14,8 +14,8 @@ import Packets.*;
  *
  * @author Thibaud
  */
-public abstract class TransfertPaquet {
 
+public abstract class TransfertPaquet {
     int nb_tentative = 3;
     InetAddress IP;
     int port;
@@ -44,46 +44,11 @@ public abstract class TransfertPaquet {
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
-            System.out.println("HOHO");
+
             try {
                 paquetRecu = receivePacket();
                 if (!PacketACK.estACK(paquetRecu)) {
                     if (!PacketERR.estERR(paquetRecu)) {
-                        System.out.println(PacketTFTP.getOpCode(paquetRecu));
-                        System.out.println("Packet non valide");
-                    } else {
-                        PacketERR paquetErreur = new PacketERR(PacketERR.getErrCode(paquetRecu));
-                        System.out.println(paquetErreur.getErrMsg());
-                    }
-                } else {
-                    System.out.println("HAHA");
-                    break;
-
-                }
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-        if (i >= nb_tentative) {
-            System.err.println("Impossible d'envoyer le paquet après " + nb_tentative + " tentatives...");
-        }
-    }
-    
-    
-    public void sendAndDATA(PacketTFTP packet) throws Exception {
-        byte[] paquetRecu;
-        int i;
-        for (i = 0; i < nb_tentative; i++) {
-            try {
-                sendPacket(packet);
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-            }
-            try {
-                paquetRecu = receivePacket();
-                if (!PacketDATA.estDATA(paquetRecu)) {
-                    if (!PacketERR.estERR(paquetRecu)) {
-                        System.out.println(PacketTFTP.getOpCode(paquetRecu));
                         System.out.println("Packet non valide");
                     } else {
                         PacketERR paquetErreur = new PacketERR(PacketERR.getErrCode(paquetRecu));
@@ -91,17 +56,15 @@ public abstract class TransfertPaquet {
                     }
                 } else {
                     break;
-
                 }
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
         }
-        if (i >= nb_tentative) {
+        if(i >= nb_tentative) {
             System.err.println("Impossible d'envoyer le paquet après " + nb_tentative + " tentatives...");
         }
     }
-    
 
     public void sendPacket(PacketTFTP packet) throws Exception {
         byte[] buffer = packet.getDatagram();
@@ -110,7 +73,7 @@ public abstract class TransfertPaquet {
         try {
             this.socket.send(dp);
         } catch (IOException ex) {
-            throw new Exception("Echec de l'envoi");
+             throw new Exception("Echec de l'envoi");
         }
     }
 
@@ -120,13 +83,14 @@ public abstract class TransfertPaquet {
         try {
             socket.receive(dp);
         } catch (IOException ex) {
-            throw new Exception("Aucun packet reçu");
+             throw new Exception("Aucun packet reçu");
         }
         if (dp.getPort() != port) {
             port = dp.getPort();
         }
         return dp.getData();
     }
+
 
     /**
      * Ferme un fichier en lecture
@@ -159,5 +123,6 @@ public abstract class TransfertPaquet {
             return false;
         }
     }
+
 
 }

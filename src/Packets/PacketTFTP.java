@@ -64,6 +64,13 @@ public abstract class PacketTFTP {
         data.putShort((short)i);
         return data.array();
     }
+     
+     public static int byteToInt (byte b[]) {
+        ByteBuffer _block = ByteBuffer.allocate(2);
+        _block.put(b[2]);
+        _block.put((int) 1, b[3]);
+        return (int) _block.getShort(0);
+    }
     
     //cette fonction retourne l'opcode d'un datagram d
     //le premier byte etant 0, on recupère le deuxième 
